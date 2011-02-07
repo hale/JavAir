@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=ticketType\ baggage
+comment0.target=Ticket(char,\ int)
+comment1.params=
+comment1.target=char\ getTicketType()
+comment2.params=
+comment2.target=int\ getBaggage()
+numComments=3
