@@ -1,7 +1,17 @@
 #BlueJ class context
 comment0.params=
 comment0.target=CheckInDesk()
+comment0.text=\n\ Sole\ constructor\ for\ the\ CheckInDesk\ class.\ \ The\ total\ maximum\ excess\n\ baggage\ allowance\ is\ calculated\ here.\n
 comment1.params=
-comment1.target=void\ newTicket()
-comment1.text=\n\ Create\ a\ new\ ticket.\ \n
-numComments=2
+comment1.target=void\ deskInterface()
+comment1.text=\n\ Check-in\ desk\ interface.\n
+comment2.params=
+comment2.target=void\ newTicket()
+comment2.text=\n\ Create\ a\ new\ ticket.\ \n
+comment3.params=
+comment3.target=void\ printTicket()
+comment4.params=ticket
+comment4.target=void\ printTicket(Ticket)
+comment5.params=
+comment5.target=void\ printSummary()
+numComments=6
