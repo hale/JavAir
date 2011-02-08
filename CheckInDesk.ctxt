@@ -3,4 +3,5 @@ comment0.params=
 comment0.target=CheckInDesk()
 comment1.params=
 comment1.target=void\ newTicket()
+comment1.text=\n\ Create\ a\ new\ ticket.\ \n
 numComments=2
