@@ -25,9 +25,9 @@ public class Ticket  {
     public String toString()  {
         String tT = "";
         switch (ticketType)  {
-            case 'm': tT = "In-flight meal: £60"; break; 
-            case 'd': tT = "In-flight drink: £55"; break;
-            case 'b': tT = "Budget: £50"; break;
+            case 'm': tT = "In-flight meal"; break; 
+            case 'd': tT = "In-flight drink"; break;
+            case 'b': tT = "Budget"; break;
         }
         
         String s = "----------\nTicket type: " + tT + "\nBaggage: " + baggage + "kg\n" + "£" + ticketPrice + "\n----------";
