@@ -41,7 +41,7 @@ public class CheckInDesk  {
     public void deskInterface()  {
         String[] interOptions = {"Make a new ticket", "Check for available seats", "Print all tickets", "Print flight summary", "Quit"};
         int which = userDialog.selectIndex("What would you like to do?", interOptions);
-        
+
         switch (which)  {
             case 0: newTicket(); break;
             case 1: userDialog.showMessage("" + (MAX_PASSENGERS - passengerCount)); break;
@@ -50,7 +50,7 @@ public class CheckInDesk  {
             case 4: return;
         }
     }
-    
+
     /**
      * Create a new ticket. 
      */
@@ -58,11 +58,9 @@ public class CheckInDesk  {
         int ticket = userDialog.selectIndex("Please select a ticket type from the options below:", OPTIONS);
         int baggage = userDialog.getInt("How much baggage does the passenger have?");
         int baggageCost = 0;
-        if (baggage>20)  {
+        if (baggage > FREE_BAGGAGE)  {
             if (baggage <= (excessBaggageLeft))  {
-                baggageCost = (baggage - 20) * EXCESS_BAGGAGE_PRICE;
-                userDialog.showMessage("There will be an excess baggage charge of: £" + baggageCost);
-                excessBaggageLeft -= baggage;
+                baggageCost = baggageCost(baggage);
             }
             else  {
                 userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
@@ -85,51 +83,58 @@ public class CheckInDesk  {
         else deskInterface();
     }
     
+    private int baggageCost(int baggage)  {
+        int baggageCost = (baggage - 20) * EXCESS_BAGGAGE_PRICE;
+        userDialog.showMessage("There will be an excess baggage charge of: £" + baggageCost);
+        excessBaggageLeft -= baggage;
+        
+        return baggageCost;
+    }
+
     public void printTicket()  {
         for (Ticket t : tickets)  {
             System.out.println(t);
         }
         deskInterface();
-   }
-   
-   public void printTicket(Ticket ticket)  {
-       if (tickets.isEmpty())  {
-           System.out.println("No tickets to print.");
-       for (Ticket t : tickets)  {
-           if (t.equals(ticket))  {
-               System.out.print(t);
+    }
+
+    public void printTicket(Ticket ticket)  {
+        if (tickets.isEmpty())  {
+            System.out.println("No tickets to print.");
+            for (Ticket t : tickets)  {
+                if (t.equals(ticket))  {
+                    System.out.print(t);
+                }
+                else  {
+                    System.out.println("Not found.");
+                }
             }
-           else  {
-               System.out.println("Not found.");
+            deskInterface();
+        }
+    }
+
+    public void printSummary()  {
+        int mealCount = 0;
+        int drinkCount = 0;
+        int budgetCount = 0;
+
+        for (Ticket ticket : tickets)  {
+            switch (ticket.getTicketType())  {
+                case 0: mealCount++; break;
+                case 1: drinkCount++; break;
+                case 2: budgetCount++; break;
+                default: return;
             }
         }
+
+        System.out.println("~~~~~~~~~~Flight Summary~~~~~~~~~~");
+        System.out.println("Total passengers: " + passengerCount + "/" + MAX_PASSENGERS);
+        System.out.println("    In-flight meal tickets: " + mealCount);
+        System.out.println("    In-flight drink tickets: " + drinkCount);
+        System.out.println("    Budget tickets: " + budgetCount);
+        System.out.println("Total baggage: " + baggageCount + "/" + MAX_BAGGAGE);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
         deskInterface();
     }
 }
-    
-   public void printSummary()  {
-       int mealCount = 0;
-       int drinkCount = 0;
-       int budgetCount = 0;
-       
-       for (Ticket ticket : tickets)  {
-           switch (ticket.getTicketType())  {
-               case 0: mealCount++; break;
-               case 1: drinkCount++; break;
-               case 2: budgetCount++; break;
-               default: return;
-            }
-        }
-       
-       System.out.println("~~~~~~~~~~Flight Summary~~~~~~~~~~");
-       System.out.println("Total passengers: " + passengerCount + "/" + MAX_PASSENGERS);
-       System.out.println("    In-flight meal tickets: " + mealCount);
-       System.out.println("    In-flight drink tickets: " + drinkCount);
-       System.out.println("    Budget tickets: " + budgetCount);
-       System.out.println("Total baggage: " + baggageCount + "/" + MAX_BAGGAGE);
-       System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-       
-       deskInterface();
-    }
-}
- 
