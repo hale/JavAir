@@ -44,7 +44,7 @@ public class CheckInDesk  {
 
         switch (which)  {
             case 0: newTicket(); break;
-            case 1: userDialog.showMessage("" + (MAX_PASSENGERS - passengerCount)); break;
+            case 1: userDialog.showMessage("Remaining seats: " + (MAX_PASSENGERS - passengerCount)); break;
             case 2: printTicket(); break;
             case 3: printSummary(); break;
             case 4: return;
@@ -56,40 +56,43 @@ public class CheckInDesk  {
      */
     public void newTicket()  {
         int ticket = userDialog.selectIndex("Please select a ticket type from the options below:", OPTIONS);
-        int baggage = userDialog.getInt("How much baggage does the passenger have?");
-        int baggageCost = 0;
-        if (baggage > FREE_BAGGAGE)  {
-            if (baggage <= (excessBaggageLeft))  {
-                baggageCost = baggageCost(baggage);
-            }
-            else  {
-                userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
-                return;
-            }
-        }
-        baggageCount+= baggage;
         // 0 = meal (£60), 1 = drink (£55), 2 = budget (£50).  
+        int baggage = addBaggage();
+        int baggageCost = baggageCost(baggage);
+        if ((baggageCost) == -1) addBaggage();
+        
         switch (ticket)  {
-            case 0: tickets.add(new Ticket(0, baggage, 60 + baggageCost)); break;
-            case 1: tickets.add(new Ticket(1, baggage, 55 + baggageCost)); break;
-            case 2: tickets.add(new Ticket(2, baggage, 50 + baggageCost)); break;
+            case 0: tickets.add(new Ticket(0, baggage, 60 + baggageCost(baggage))); break;
+            case 1: tickets.add(new Ticket(1, baggage, 55 + baggageCost(baggage))); break;
+            case 2: tickets.add(new Ticket(2, baggage, 50 + baggageCost(baggage))); break;
             default: return; 
         }
         passengerCount++;
         if (passengerCount == MAX_PASSENGERS)  {
             System.out.println("Flight closed.  The following tickets have been sold for the commencing flight:");
-            printTicket();
+            printSummary();
         }
         else deskInterface();
     }
     
     private int baggageCost(int baggage)  {
+        if (baggage <= FREE_BAGGAGE) return 0;
+        if (baggage > (excessBaggageLeft))  {
+            userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
+            return -1;
+        }
         int baggageCost = (baggage - 20) * EXCESS_BAGGAGE_PRICE;
         userDialog.showMessage("There will be an excess baggage charge of: £" + baggageCost);
         excessBaggageLeft -= baggage;
-        
         return baggageCost;
     }
+    
+    private int addBaggage()  {
+        int baggage = userDialog.getInt("How much baggage does the passenger have?");
+        baggageCount += baggage;
+        return baggage;
+    }
+        
 
     public void printTicket()  {
         for (Ticket t : tickets)  {
