@@ -60,6 +60,8 @@ public class CheckInDesk  {
         int ticket = userDialog.selectIndex("Please select a ticket type from the options below:", OPTIONS);
         int baggage = userDialog.getInt("How much baggage does the passenger have?");
         int baggageCost = addBaggage(baggage);
+        
+        
         // 0 = meal (£60), 1 = drink (£55), 2 = budget (£50).  
         switch (ticket)  {
             case 0: tickets.add(new Ticket(0, baggage, 60 + baggageCost)); break;
@@ -85,7 +87,7 @@ public class CheckInDesk  {
             }
             else  {
                 userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
-                return;
+                deskInterface();
             }
         }
         baggageCount+= baggage;

@@ -33,7 +33,7 @@ public class Ticket  {
             case 2: tT = "Budget"; break;
         }
 
-        String s = "----------\nTicket type: " + tT + "\nBaggage: " + baggage + "kg\n" + "£" + ticketPrice + "\n----------";
+        String s = "--------------------\n  *" + tT + "*\n   " + baggage + "kg baggage\n" + "   £" + ticketPrice + "\n--------------------";
         return s;
     }
 

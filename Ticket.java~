@@ -6,7 +6,7 @@
  */
 public class Ticket  {
     private int baggage;
-    // There are 3 ticket types.  m: meal d: drink b: budget
+    // There are 3 ticket types.  0: meal 1: drink 2: budget
     private int ticketType;
     private int ticketPrice;
 
@@ -33,7 +33,7 @@ public class Ticket  {
             case 2: tT = "Budget"; break;
         }
 
-        String s = "----------\nTicket type: " + tT + "\nBaggage: " + baggage + "kg\n" + "£" + ticketPrice + "\n----------";
+        String s = "--------------------\n  *" + tT + "*\n   " + baggage + "kg baggage\n" + "     £" + ticketPrice + "\n--------------------";
         return s;
     }
 
