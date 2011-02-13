@@ -53,6 +53,8 @@ public class CheckInDesk  {
     
     /**
      * Create a new ticket. 
+     * 
+     * 
      */
     public void newTicket()  {
         int ticket = userDialog.selectIndex("Please select a ticket type from the options below:", OPTIONS);

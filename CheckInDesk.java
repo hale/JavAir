@@ -59,19 +59,7 @@ public class CheckInDesk  {
     public void newTicket()  {
         int ticket = userDialog.selectIndex("Please select a ticket type from the options below:", OPTIONS);
         int baggage = userDialog.getInt("How much baggage does the passenger have?");
-        int baggageCost = 0;
-        if (baggage>20)  {
-            if (baggage <= (excessBaggageLeft))  {
-                baggageCost = (baggage - 20) * EXCESS_BAGGAGE_PRICE;
-                userDialog.showMessage("There will be an excess baggage charge of: £" + baggageCost);
-                excessBaggageLeft -= baggage;
-            }
-            else  {
-                userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
-                return;
-            }
-        }
-        baggageCount+= baggage;
+        int baggageCost = addBaggage(baggage);
         // 0 = meal (£60), 1 = drink (£55), 2 = budget (£50).  
         switch (ticket)  {
             case 0: tickets.add(new Ticket(0, baggage, 60 + baggageCost)); break;
@@ -85,6 +73,23 @@ public class CheckInDesk  {
             printTicket();
         }
         else deskInterface();
+    }
+    
+    private int addBaggage(int baggage)  {
+        int baggageCost = 0;
+        if (baggage > FREE_BAGGAGE)  {
+            if (baggage <= (excessBaggageLeft))  {
+                baggageCost = (baggage - FREE_BAGGAGE) * EXCESS_BAGGAGE_PRICE;
+                userDialog.showMessage("There will be an excess baggage charge of: £" + baggageCost);
+                excessBaggageLeft -= baggage;
+            }
+            else  {
+                userDialog.showMessage("Sorry, but there is only: " + excessBaggageLeft + "kg of free baggage left.");
+                return;
+            }
+        }
+        baggageCount+= baggage;
+        return baggageCost;
     }
     
     public void printTicket()  {
